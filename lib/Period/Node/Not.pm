@@ -2,7 +2,8 @@ package Period::Node::Not;
 
 sub evaluate {
     my $self = shift;
-    return !$self->[0]->evaluate();
+    my $names = shift;
+    return !$self->[0]->evaluate($names);
 }
 
 1;

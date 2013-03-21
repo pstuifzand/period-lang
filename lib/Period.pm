@@ -6,9 +6,12 @@ use Marpa::R2;
 use Period::Node::Overlaps;
 use Period::Node::Period;
 use Period::Node::Not;
+use Period::Node::Var;
 use Period::Node::Meets;
 use Period::Node::During;
 use Period::Node::Between;
+use Period::Node::Assignment;
+use Period::Node::Statements;
 
 sub new {
     my ($class) = @_;
@@ -20,7 +23,14 @@ sub new {
             bless_package  => 'Period::Node',
             source         => \<<'SOURCE',
 
-:start  ::= expression
+:start  ::= statements
+
+statements  ::= statement+                              separator => semicolon proper => 0 bless => Statements
+
+statement   ::= var ('=') expression                    bless => Assignment
+              | expression                              action => ::first
+
+semicolon    ~ ';'
 
 expression ::= period                                   action => ::first
              | ldate                                    action => ::first
@@ -35,7 +45,7 @@ bool_expression ::=
              | ('!') bool_expression                    bless => Not
              | bool_expression '&&' bool_expression     bless => And
              | bool_expression '||' bool_expression     bless => Or
-             | ldate ('between') expression              bless => Between
+             | expression ('between') expression        bless => Between
 
 period_bool_expression ::=
                expression ('meets') expression          bless => Meets

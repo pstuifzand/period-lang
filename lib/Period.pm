@@ -19,16 +19,6 @@ use Period::Node::Between;
 
 use Period::Node::Op;
 
-use Period::Node::Meets;
-use Period::Node::During;
-use Period::Node::Overlaps;
-
-use Period::Node::Before;
-use Period::Node::After;
-
-use Period::Node::Starts;
-use Period::Node::Finishes;
-
 use Period::Node::Assignment;
 use Period::Node::Statements;
 

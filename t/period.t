@@ -27,7 +27,7 @@ is($names->{d}->evaluate($names), '2012-01-01');
 
 my $e = $p->parse("d = 2011-01-01; p = [2010-01-01,2012-01-01]; d between p");
 my $names = {};
-ok($e->evaluate($names));
+is($e->evaluate($names), 1);
 is($names->{d}->evaluate($names), '2011-01-01');
 is($names->{p}->from->evaluate($names), '2010-01-01');
 is($names->{p}->to->evaluate($names), '2012-01-01');

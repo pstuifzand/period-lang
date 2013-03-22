@@ -1,12 +1,15 @@
 package Period::Node::Statements;
+use strict;
+use Data::Dumper;
 
 sub evaluate {
     my $self = shift;
     my $names = shift;
+    my $ret;
     for (@$self) {
-        $_->evaluate($names);
+        $ret = $_->evaluate($names);
     }
-    return 1;
+    return $ret;
 }
 
 1;

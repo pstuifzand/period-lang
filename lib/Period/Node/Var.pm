@@ -1,4 +1,5 @@
 package Period::Node::Var;
+use strict;
 use Data::Dumper;
 
 sub evaluate {

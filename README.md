@@ -18,5 +18,5 @@ Expression:
 Multiple statements:
 
     p = [2012-01-01,];
-    q = [2013-12-01,2013-12-31]
+    q = [2013-12-01,2013-12-31];
     p overlaps q;

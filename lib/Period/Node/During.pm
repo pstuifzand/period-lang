@@ -9,7 +9,7 @@ sub evaluate {
     my ($p, $q) = @$self;
     $p = $p->evaluate($names);
     $q = $q->evaluate($names);
-    return $q->from lt $p->from && $p->to le $q->to;
+    return $q->from lt $p->from && $p->to lt $q->to;
 }
 
 1;

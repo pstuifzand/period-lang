@@ -34,4 +34,7 @@ is($names->{d}->evaluate($names,$context), '2011-01-01');
 is($names->{p}->from->evaluate($names,$context), '2010-01-01');
 is($names->{p}->to->evaluate($names,$context), '2012-01-01');
 
+my $e = $p->parse("d = 2014-01-01; d between [2010-01-01,2012-01-01] || d between [2012-01-01,2050-01-01]");
+ok($e->evaluate({}, $context));
+
 done_testing();

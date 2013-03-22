@@ -19,6 +19,9 @@ use Period::Node::Between;
 
 use Period::Node::Op;
 
+use Period::Node::Or;
+use Period::Node::And;
+
 use Period::Node::Assignment;
 use Period::Node::Statements;
 
@@ -51,8 +54,8 @@ bool_expression ::=
                period_bool_expression                   action => ::first
              | ('(') bool_expression (')')              action => ::first
              | ('!') bool_expression                    bless => Not
-             | bool_expression '&&' bool_expression     bless => And
-             | bool_expression '||' bool_expression     bless => Or
+             | bool_expression ('&&') bool_expression   bless => And
+             | bool_expression ('||') bool_expression   bless => Or
              | expression ('between') expression        bless => Between
 
 period_bool_expression ::=

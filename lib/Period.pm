@@ -2,11 +2,15 @@ package Period;
 use 5.14.2;
 use strict;
 use Marpa::R2;
+use Data::Dumper;
 
 use Period::Node::Overlaps;
 use Period::Node::Period;
+use Period::Node::PeriodStart;
+use Period::Node::PeriodEnd;
 use Period::Node::Not;
 use Period::Node::Var;
+use Period::Node::Date;
 use Period::Node::Meets;
 use Period::Node::During;
 use Period::Node::Between;
@@ -17,10 +21,9 @@ sub new {
     my ($class) = @_;
     my $self = bless {
         grammar => Marpa::R2::Scanless::G->new({
-
-            action_object  => 'Period::Actions',
             default_action => '::array',
             bless_package  => 'Period::Node',
+
             source         => \<<'SOURCE',
 
 :start  ::= statements
@@ -37,7 +40,7 @@ expression ::= period                                   action => ::first
              | var                                      action => ::array bless => Var
              | bool_expression                          action => ::first
 
-ldate      ::= date                                     action => do_date
+ldate      ::= date                                     bless => Date
 
 bool_expression ::=
                period_bool_expression                   action => ::first
@@ -57,9 +60,9 @@ period_bool_expression ::=
              | expression ('overlaps') expression       bless => Overlaps
              | expression ('during') expression         bless => During
 
-period     ::= ('[') ldate (',') ldate (']')              bless => Period
-             | ('[') (',') ldate (']')                   bless => Period
-             | ('[') ldate (',') (']')                   bless => Period
+period     ::= ('[') ldate (',') ldate (']')            bless => Period
+             | ('[') (',') ldate (']')                  bless => PeriodEnd
+             | ('[') ldate (',') (']')                  bless => PeriodStart
 
 date       ~ year '-' month '-' day
 year       ~ [\d] [\d] [\d] [\d] 
@@ -83,25 +86,6 @@ sub parse {
     $re->read(\$input);
     my $t = $re->value;
     return $$t;
-}
-
-package Period::Actions;
-use strict;
-use Date::Simple 'date';
-
-sub new {
-    my $class = shift;
-    return bless {}, $class;
-}
-
-sub do_operator {
-    my ($self, $left, $op, $right) = @_;
-    return [ $op, $left, $right ];
-}
-
-sub do_date {
-    my ($self, $date) = @_;
-    return date($date);
 }
 
 1;

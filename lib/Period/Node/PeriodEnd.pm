@@ -1,23 +1,24 @@
-package Period::Node::Period;
-use strict;
+package Period::Node::PeriodEnd;
 
 sub evaluate {
     my $self = shift;
     my $names = shift;
+
     return bless [ 
-        $self->[0]->evaluate($names),
-        $self->[1]->evaluate($names),
+        $self->from,
+        $self->to->evaluate($names),
     ], 'Period::Node::Period';
 }
 
 sub from {
     my $self = shift;
-    return $self->[0];
+    return '0000-00-00';
 }
 
 sub to {
     my $self = shift;
-    return $self->[1];
+    return $self->[0];
 }
+
 
 1;

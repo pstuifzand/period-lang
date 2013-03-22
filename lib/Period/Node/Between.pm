@@ -5,10 +5,11 @@ sub evaluate {
     my $names = shift;
 
     my ($date, $p) = @$self;
-    $date = (ref($date) ne 'Date::Simple') ? $date->evaluate($names) : $date;
-    $p = $p->evaluate($names);
 
-    return $date >= $p->from && $date < $p->to;
+    $date = $date->evaluate($names);
+    $p    = $p->evaluate($names);
+
+    return $date ge $p->from && $date lt $p->to;
 }
 
 1;

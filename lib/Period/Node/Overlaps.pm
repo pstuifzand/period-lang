@@ -3,7 +3,9 @@ package Period::Node::Overlaps;
 sub evaluate {
     my $self = shift;
     my ($p1, $p2) = @$self;
-    return $p1->from < $p2->from && $p2->from < $p1->to;
+    $p1 = $p1->evaluate($names);
+    $p2 = $p2->evaluate($names);
+    return $p1->from lt $p2->from && $p2->from lt $p1->to;
 }
 
 sub from {

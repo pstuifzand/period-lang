@@ -4,6 +4,9 @@ use strict;
 use Marpa::R2;
 use Data::Dumper;
 
+use Period::Context;
+use Period::Op;
+
 use Period::Node::Period;
 use Period::Node::PeriodStart;
 use Period::Node::PeriodEnd;
@@ -13,6 +16,8 @@ use Period::Node::Var;
 use Period::Node::Date;
 
 use Period::Node::Between;
+
+use Period::Node::Op;
 
 use Period::Node::Meets;
 use Period::Node::During;
@@ -61,14 +66,14 @@ bool_expression ::=
              | expression ('between') expression        bless => Between
 
 period_bool_expression ::=
-               expression ('meets') expression          bless => Meets
-             | expression ('equals') expression         bless => Equals
-             | expression ('before') expression         bless => Before
-             | expression ('after') expression          bless => After
-             | expression ('starts') expression         bless => Starts
-             | expression ('finishes') expression       bless => Finishes
-             | expression ('overlaps') expression       bless => Overlaps
-             | expression ('during') expression         bless => During
+               expression 'meets' expression            bless => Op
+             | expression 'equals' expression           bless => Op
+             | expression 'before' expression           bless => Op
+             | expression 'after' expression            bless => Op
+             | expression 'starts' expression           bless => Op
+             | expression 'finishes' expression         bless => Op
+             | expression 'overlaps' expression         bless => Op
+             | expression 'during' expression           bless => Op
 
 period     ::= ('[') ldate (',') ldate (']')            bless => Period
              | ('[') (',') ldate (']')                  bless => PeriodEnd

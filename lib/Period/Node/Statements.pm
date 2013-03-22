@@ -5,9 +5,10 @@ use Data::Dumper;
 sub evaluate {
     my $self = shift;
     my $names = shift;
+    my $context = shift;
     my $ret;
     for (@$self) {
-        $ret = $_->evaluate($names);
+        $ret = $_->evaluate($names, $context);
     }
     return $ret;
 }
